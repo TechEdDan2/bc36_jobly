@@ -1,0 +1,36 @@
+{
+  "name": "express-jobly",
+  "version": "2.0.0",
+  "description": "This is the Express backend for Jobly, version 2.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest -i",
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules",
+      "config.js"
+    ]
+  },
+  "keywords": [],
+  "author": "DNel2",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonschema": "^1.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
+  }
+}

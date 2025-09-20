@@ -42,10 +42,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 /** GET /  =>
  *   { companies: [ { handle, name, description, numEmployees, logoUrl }, ...] }
  *
- * Can filter on provided search filters:
- * - minEmployees
- * - maxEmployees
- * - nameLike (will find case-insensitive, partial matches)
+ * Returns list of all companies.
  *
  * Authorization required: none
  */
@@ -53,6 +50,30 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 router.get("/", async function (req, res, next) {
   try {
     const companies = await Company.findAll();
+    return res.json({ companies });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** GET /filter  =>
+ *   { companies: [ { handle, name, description, numEmployees, logoUrl }, ...] }
+ *
+ * Can filter on provided search filters:
+ * - minEmployees
+ * - maxEmployees
+ * - nameLike (will find case-insensitive, partial matches)
+ *
+ * Authorization required: none
+ * 
+ * Example: /companies/filter?nameLike=net&minEmployees=1000&maxEmployees=5000
+ * 
+ * Returns list of companies that meet filter criteria.
+ */
+router.get("/filter", async function (req, res, next) {
+  try {
+    const filterObj = req.query;
+    const companies = await Company.findByFilter(filterObj);
     return res.json({ companies });
   } catch (err) {
     return next(err);

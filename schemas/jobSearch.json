@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/jobSearch.json",
+    "type": "object",
+    "example": {
+        "title": "Engineer",
+        "minSalary": 80000,
+        "hasEquity": true
+    },
+    "properties": {
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 75
+        },
+        "minSalary": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "hasEquity": {
+            "type": "boolean"
+        }
+    },
+    "additionalProperties": false,
+    "required": []
+}

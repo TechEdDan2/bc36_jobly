@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/jobCreate.json",
+    "type": "object",
+    "example": {
+        "title": "Software Engineer",
+        "salary": 120000,
+        "equity": 0.05,
+        "companyHandle": "c1"
+    },
+    "properties": {
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 75
+        },
+        "salary": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "equity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "companyHandle": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 25
+        }
+    },
+    "required": [
+        "title",
+        "companyHandle"
+    ],
+    "additionalProperties": false
+}

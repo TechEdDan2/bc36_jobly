@@ -94,6 +94,8 @@ async function commonAfterAll() {
 const u1Token = createToken({ username: "u1", isAdmin: false });
 //Part 3 - create admin token
 const adminToken = createToken({ username: "admin1", isAdmin: true });
+//Create a token for another non-admin user to test unauthorized access
+const u2Token = createToken({ username: "u2", isAdmin: false });
 
 
 module.exports = {
@@ -103,4 +105,5 @@ module.exports = {
   commonAfterAll,
   u1Token,
   adminToken,
+  u2Token,
 };

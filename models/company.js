@@ -64,18 +64,21 @@ class Company {
   /**
    * Find all companies that match filter criteria.
    *
-   * filter: {nameLike, minEmployees, maxEmployees}
+   * @param {nameLike, minEmployees, maxEmployees} filters
    *
-   * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
+   * @returns { handle, name, description, numEmployees, logoUrl }[]
+   *
+   * @throws BadRequestError if minEmployees is greater than maxEmployees
+   * @throws NotFoundError if no companies found with those filters
    */
-  static async findByFilter(filter) {
+  static async findByFilter(filters) {
 
     // If no filter criteria, return all companies
-    if (Object.keys(filter).length === 0) {
+    if (Object.keys(filters).length === 0) {
       return this.findAll();
     }
 
-    // Build the main query
+    // Build the query
     let qString = `SELECT handle,
                   name,
                   description,
@@ -90,25 +93,25 @@ class Company {
     let vals = [];
 
     // Check for nameLike filter then add to WHERE conditions and vals array
-    if (filter.nameLike !== undefined) {
-      vals.push(`%${filter.nameLike.toLowerCase()}%`);
+    if (filters.nameLike !== undefined) {
+      vals.push(`%${filters.nameLike.toLowerCase()}%`);
       where.push(`LOWER(name) LIKE $${vals.length}`);
     }
 
     // Check that minEmployees is not greater than maxEmployees
-    if (Number(filter.minEmployees) > Number(filter.maxEmployees)) {
+    if (Number(filters.minEmployees) > Number(filters.maxEmployees)) {
       throw new BadRequestError("Min employees cannot be greater than max employees");
     }
 
     // Check for minEmployees filter then add to WHERE conditions and vals array
-    if (filter.minEmployees !== undefined) {
-      vals.push(Number(filter.minEmployees));
+    if (filters.minEmployees !== undefined) {
+      vals.push(Number(filters.minEmployees));
       where.push(`num_employees >= $${vals.length}`);
     }
 
     // Check for maxEmployees filter then add to WHERE conditions and vals array
-    if (filter.maxEmployees !== undefined) {
-      vals.push(Number(filter.maxEmployees));
+    if (filters.maxEmployees !== undefined) {
+      vals.push(Number(filters.maxEmployees));
       where.push(`num_employees <= $${vals.length}`);
     }
 

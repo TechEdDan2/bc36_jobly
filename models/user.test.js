@@ -14,6 +14,7 @@ const {
   commonAfterAll,
   fakeJobIds,
 } = require("./_testCommon");
+const { application } = require("express");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -141,6 +142,7 @@ describe("get", function () {
       lastName: "U1L",
       email: "u1@email.com",
       isAdmin: false,
+      apps: [fakeJobIds[0], fakeJobIds[1]],
     });
   });
 

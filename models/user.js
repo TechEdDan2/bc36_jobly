@@ -139,6 +139,15 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
 
+    //Add a object key like the company model
+    const resUserApps = await db.query(
+      `SELECT a.job_id
+      FROM applications AS a
+      WHERE a.username = $1`, [username]
+    );
+
+    user.apps = resUserApps.rows.map(a => a.job_id);
+
     return user;
   }
 

@@ -19,7 +19,10 @@
             "minimum": 0
         },
         "equity": {
-            "type": "number",
+            "type": [
+                "string",
+                "null"
+            ],
             "minimum": 0,
             "maximum": 1
         },

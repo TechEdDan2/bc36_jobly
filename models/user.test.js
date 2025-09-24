@@ -12,6 +12,7 @@ const {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
+  fakeJobIds,
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -215,7 +216,7 @@ describe("remove", function () {
   test("works", async function () {
     await User.remove("u1");
     const res = await db.query(
-        "SELECT * FROM users WHERE username='u1'");
+      "SELECT * FROM users WHERE username='u1'");
     expect(res.rows.length).toEqual(0);
   });
 
@@ -228,3 +229,17 @@ describe("remove", function () {
     }
   });
 });
+
+/************************************** apply to job */
+describe("applyToJob", function () {
+  test("works", async function () {
+    await User.applyForJob("u1", fakeJobIds[2]);
+
+    const res = await db.query(
+      `SELECT * FROM applications WHERE username='u1' AND job_id=$1`, [fakeJobIds[2]]);
+    expect(res.rows.length).toEqual(1);
+  });
+
+  //Test no user and no job in separate tests in the future
+});
+

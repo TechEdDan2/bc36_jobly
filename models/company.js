@@ -160,6 +160,24 @@ class Company {
 
     if (!company) throw new NotFoundError(`No company: ${handle}`);
 
+    //Get jobs for this company
+    // and add to company object as key of jobs
+    // with value of array of jobs objects
+    // each job object: { id, title, salary, equity, companyHandle }
+    const jobsRes = await db.query(
+      `SELECT id,
+                  title,
+                  salary,
+                  equity,
+                  company_handle AS "companyHandle"
+           FROM jobs
+           WHERE company_handle = $1
+           ORDER BY title`,
+      [handle]);
+
+    //Add the jobs array to the company object as a key of jobs
+    company.jobs = jobsRes.rows;
+
     return company;
   }
 

@@ -14,6 +14,7 @@ const {
   u1Token,
   adminToken,
   u2Token,
+  fakeJobIds,
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -193,6 +194,9 @@ describe("GET /users/:username", function () {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
+        apps: [
+          fakeJobIds[0].id,
+        ],
       },
     });
   });
@@ -208,6 +212,9 @@ describe("GET /users/:username", function () {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
+        apps: [
+          fakeJobIds[0].id,
+        ],
       },
     });
   });
@@ -372,5 +379,23 @@ describe("DELETE /users/:username", function () {
       .delete(`/users/nope`)
       .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(404);
+  });
+});
+
+/***************************************************** POST /users/:username/jobs/:id */
+describe("POST /users/:username/jobs/:id", function () {
+  test("works for admin", async function () {
+    const resp = await request(app)
+      .post(`/users/u1/jobs/${fakeJobIds[1].id}`)
+      .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.body).toEqual({ applied: fakeJobIds[1].id });
+  });
+
+  // Test to ensure that a user can apply for a job themselves
+  test("works for the user that is logged in", async function () {
+    const resp = await request(app)
+      .post(`/users/u1/jobs/${fakeJobIds[2].id}`)
+      .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.body).toEqual({ applied: fakeJobIds[2].id });
   });
 });

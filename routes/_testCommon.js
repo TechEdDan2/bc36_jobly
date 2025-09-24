@@ -107,6 +107,15 @@ async function commonBeforeAll() {
     })
   );
 
+  //-------------//
+  // create application for u1 to job 1
+  //-------------//
+  await db.query(
+    `INSERT INTO applications (username, job_id)
+     VALUES ('u1', $1)`,
+    [fakeJobIds[0].id] // If fakeJobIds contains job objects
+  );
+
 }
 
 async function commonBeforeEach() {

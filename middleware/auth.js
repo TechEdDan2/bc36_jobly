@@ -70,7 +70,7 @@ function ensureAdminOrSelf(req, res, next) {
   try {
     // Check the response locals for the user and their admin status or username match
     const user = res.locals.user;
-    if (!(user && (user.isAdmin || user.username === req.params.username))) {
+    if (!(user?.isAdmin || user?.username === req.params.username)) {
       throw new UnauthorizedError();
     }
     return next();
